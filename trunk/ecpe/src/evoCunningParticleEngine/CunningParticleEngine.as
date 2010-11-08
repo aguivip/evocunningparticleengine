@@ -149,6 +149,25 @@ package evoCunningParticleEngine
 			return l;
 		}
 		
+		/**
+		 * REMOVE LIGHTS
+		 **/
+		public function removeAllLights():void
+		{
+			var light:Light;
+			var l:int = lights.length;
+			for(var i:int = 0; i < l; i++)
+			{
+				light = lights[i];
+				light.next = null;
+				light = null;
+			}
+			
+			lights = null;
+			this.renderer.firstL = null;
+			this.renderer.hasLight = false;
+		}
+		
 		
 		/**
 		 * RENDER FUNCTION
@@ -164,12 +183,25 @@ package evoCunningParticleEngine
 			if(particles)
 			{
 				var l:int = particles.length;
+				var particle:Particle;
 				for(var i:int = 0; i < l; i++)
 				{
-					particles[i].next = null;
+					particle = particles[i];
+					particle.material = null; 
+					particle.sort = null;
+					particle.functio = null;
+					particle.next = null;
+					particle.prev = null;
 				}
 				particles = null;
 			}
+			particleCount = 0;
+			this.renderer.firstP = null;
+			this.renderer.particles = null;
+			
+			materials = null;
+			
+			removeAllLights();
 		}
 		
 		public function remove():void
